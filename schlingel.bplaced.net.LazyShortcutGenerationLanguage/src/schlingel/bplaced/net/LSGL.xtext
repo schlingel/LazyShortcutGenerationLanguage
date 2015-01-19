@@ -1,0 +1,75 @@
+grammar schlingel.bplaced.net.LSGL with org.eclipse.xtext.common.Terminals
+
+generate lSGL "http://www.bplaced.schlingel/net/LSGL"
+
+Model:
+	(generators += Generator
+		| types += Type
+		| projections += Projection)*
+	;
+	
+Generator:
+	'def' 'generator' name=ID
+	properties+=ConfigProperty*
+	configs+=Config*
+	'end'
+;	
+	
+Config:
+	'def' 'config' name=ID
+		properties+=ConfigProperty
+		(',' properties+=ConfigProperty)*
+	'end'
+;	
+
+ConfigProperty:
+	name=ID ':' value=STRING
+;
+
+Type:
+	{Type}
+	PrimaryType | Enum | Entity
+;
+
+PrimaryType:
+	'string' | 'int' | 'double' | 'float' | 'char'
+;
+
+Enum:
+	'def' 'enum' name=ID
+	items+=EnumItem
+	(',' items+=EnumItem)*
+	'end'
+;
+
+EnumItem:
+	name=ID ':' value=STRING 	
+;
+
+Entity:
+	('@generator' '(' generators+=(Generator | QualifiedName) ')')*
+	'def' 'entity' name=ID ('extends' superClass=(Entity | QualifiedName))?
+		(attributes+=Attribute)?
+		(',' attributes+=Attribute)*
+	'end'
+;
+
+Attribute:
+	('@annotation' '(' annotations+=Annotation ')')*
+	type=(Type | QualifiedName) name=ID
+;
+
+Annotation:
+	name=STRING (',' value=STRING)?
+;
+
+Projection:
+	('@generator' '(' generators+=(Generator | QualifiedName) ')')*
+	'def' (excluding?='excluding')? 'projection' name=ID 'of' entity=(Entity | QualifiedName)
+		(attributes+=Attribute)*
+	'end'
+;
+
+QualifiedName returns STRING: 
+	{ID}
+	ID (=> '.'ID)*;

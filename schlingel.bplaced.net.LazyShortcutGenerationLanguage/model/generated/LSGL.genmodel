@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/schlingel.bplaced.net.LazyShortcutGenerationLanguage/src-gen"
+    editDirectory="/schlingel.bplaced.net.LazyShortcutGenerationLanguage.edit/src"
+    editorDirectory="/schlingel.bplaced.net.LazyShortcutGenerationLanguage.editor/src"
+    modelPluginID="schlingel.bplaced.net.LazyShortcutGenerationLanguage" forceOverwrite="true"
+    modelName="LSGL" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    complianceLevel="5.0" copyrightFields="false" editPluginID="schlingel.bplaced.net.LazyShortcutGenerationLanguage.edit"
+    editorPluginID="schlingel.bplaced.net.LazyShortcutGenerationLanguage.editor" runtimeVersion="2.10">
+  <genPackages prefix="LSGL" basePackage="schlingel.bplaced.net" disposableProviderFactory="true"
+      fileExtensions="lsgl" ecorePackage="LSGL.ecore#/">
+    <genClasses ecoreClass="LSGL.ecore#//Model">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Model/generators"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Model/types"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Model/projections"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//Generator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Generator/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Generator/properties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Generator/configs"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//Config">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Config/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Config/properties"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//ConfigProperty">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//ConfigProperty/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//ConfigProperty/value"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//Type">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Type/name"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//Enum">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Enum/items"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//EnumItem">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//EnumItem/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//EnumItem/value"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//Entity">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/generators"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/superClass"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/attributes"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//Attribute">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Attribute/annotations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Attribute/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Attribute/name"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//Annotation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Annotation/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Annotation/value"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//Projection">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Projection/generators"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Projection/excluding"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Projection/name"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Projection/entity"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Projection/attributes"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//STRING"/>
+    <genClasses ecoreClass="LSGL.ecore#//ID"/>
+  </genPackages>
+</genmodel:GenModel>
