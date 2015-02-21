@@ -27,7 +27,9 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//ConfigProperty/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//ConfigProperty/value"/>
     </genClasses>
-    <genClasses ecoreClass="LSGL.ecore#//Type"/>
+    <genClasses ecoreClass="LSGL.ecore#//Type">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Type/name"/>
+    </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//PrimaryType">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//PrimaryType/token"/>
     </genClasses>
@@ -35,7 +37,6 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//PrimaryObjectType/token"/>
     </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//Enum">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Enum/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Enum/items"/>
     </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//EnumItem">
@@ -43,10 +44,14 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//EnumItem/value"/>
     </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//Entity">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/generators"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Entity/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/superClass"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/generators"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/superClass"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/attributes"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//AttributeType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference LSGL.ecore#//AttributeType/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//AttributeType/nullable"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//AttributeType/typeName"/>
     </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//Attribute">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Attribute/annotations"/>
@@ -62,13 +67,11 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Annotation/value"/>
     </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//Projection">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Projection/generators"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference LSGL.ecore#//Projection/generators"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Projection/excluding"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Projection/name"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Projection/entity"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference LSGL.ecore#//Projection/entity"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Projection/attributes"/>
     </genClasses>
-    <genClasses ecoreClass="LSGL.ecore#//STRING"/>
-    <genClasses ecoreClass="LSGL.ecore#//ID"/>
   </genPackages>
 </genmodel:GenModel>

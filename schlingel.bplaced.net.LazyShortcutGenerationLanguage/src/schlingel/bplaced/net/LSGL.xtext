@@ -27,17 +27,23 @@ ConfigProperty:
 ;
 
 Type:	
-	PrimaryType | PrimaryObjectType | Enum | Entity	
+	Enum | Entity 
 ;
 
 PrimaryType:
-	('simple' | 's')
-	token = ('string' | 'int' | 'double' | 'float' | 'char' | 'bool')
+	token = (
+		'string'
+		| 'int'
+		| 'float'
+		| 'double'
+		| 'char'
+		| 'byte'
+	)
 ;
 
 PrimaryObjectType:
 	('nullable' | 'object' | 'o')
-	token = ('int' | 'double' | 'float' | 'char' | 'bool' | 'Object')
+	token = ('int' | 'double' | 'float' | 'char' | 'bool' | 'Object' | 'byte')
 ;
 
 Enum:
@@ -52,17 +58,35 @@ EnumItem:
 ;
 
 Entity:
-	('@generator' '(' generators+=(Generator | QualifiedName) ')')*
-	'def' 'entity' name=ID ('extends' superClass=(Entity | QualifiedName))?
+	('@generator' '(' generators+=[Generator | QualifiedName] ')')*
+	'def' 'entity' name=ID ('extends' superClass=[Entity | QualifiedName])?
 		(attributes+=Attribute)?
 		(',' attributes+=Attribute)*
 	'end'
 ;
 
+AttributeType:
+	(type=[Type | QualifiedName]
+		| (
+			(nullable ?= ('nullable' | 'object' | 'o'))?
+			typeName = (
+				'string'
+				| 'int'
+				| 'byte'
+				| 'char'
+				| 'float'
+				| 'double'
+				| 'bool'
+				| 'object'
+			)
+		)
+	)
+;
+
 Attribute:
 	('@annotation' '(' annotations+=Annotation ')')*
-	(isMap ?= 'map' key = (Type | QualifiedName) ',')?
-	type=(Type | QualifiedName) 
+	(isMap ?= 'map' key = AttributeType ',')?
+	type = AttributeType
 	(isList ?= 'list')?
 	(isArray ?= 'array')?
 	name=ID
@@ -73,12 +97,12 @@ Annotation:
 ;
 
 Projection:
-	('@generator' '(' generators+=(Generator | QualifiedName) ')')*
-	'def' (excluding?='excluding')? 'projection' name=ID 'of' entity=(Entity | QualifiedName)
+	('@generator' '(' generators+=[Generator | QualifiedName] ')')*
+	'def' (excluding?='excluding')? 'projection' name=ID 'of' entity=[Entity | QualifiedName]
 		(attributes+=Attribute)*
 	'end'
 ;
 
-QualifiedName returns STRING: 
-	{ID}
-	ID (=> '.'ID)*;
+QualifiedName:
+	ID ('.'ID)*
+;

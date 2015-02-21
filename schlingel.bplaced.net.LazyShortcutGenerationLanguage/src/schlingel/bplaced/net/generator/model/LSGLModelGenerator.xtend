@@ -16,6 +16,7 @@ import schlingel.bplaced.net.lSGL.PrimaryType
 import javax.inject.Inject
 import org.eclipse.xtext.naming.IQualifiedNameProvider
 import schlingel.bplaced.net.lSGL.PrimaryObjectType
+import schlingel.bplaced.net.lSGL.AttributeType
 
 class LSGLModelGenerator implements IGenerator {
 	@Inject extension IQualifiedNameProvider
@@ -78,10 +79,10 @@ import java.util.ArrayList;
 '''
 	public «entity.name»() {
 		«FOR list : listItems»
-		«list.name» = new ArrayList<«getTypenameOf(list.type)»>();
+		«list.name» = new ArrayList<«getAttributeTypeName(list.type, true)»>();
 		«ENDFOR»
 		«FOR map : mapItems»
-		«map.name» = new HashMap<«getTypenameOf(map.key)»,«getTypenameOf(map.type)»>();
+		«map.name» = new HashMap<«getAttributeTypeName(map.key, true)»,«getAttributeTypeName(map.type, true)»>();
 		«ENDFOR»
 	}
 '''
@@ -115,55 +116,61 @@ import java.util.ArrayList;
 	}
 
 	def private String getAttributeTypeOf(Attribute attr) {
-		var token = getTypenameOf(attr.type)
-		
 		if(attr.isIsList) {
-			token = String.format("List<%s>", getTypenameOf(attr.type))
+			return String.format("List<%s>", getAttributeTypeName(attr.type, true))
 		} else if(attr.isIsArray) {
-			token = String.format("%s[]", getTypenameOf(attr.type));
+			return String.format("%s[]", getAttributeTypeName(attr.type, false));
 		} else if(attr.isIsMap) {
-			token = String.format("AbstractMap<%s, %s>", getTypenameOf(attr.key), getTypenameOf(attr.type));
+			return String.format("AbstractMap<%s, %s>", getAttributeTypeName(attr.key, true), getAttributeTypeName(attr.type, true));
 		}
 		
-		return token;
+		return getAttributeTypeName(attr.type, attr.type.nullable);
 	}
-
+	
+	def private String getAttributeTypeName(AttributeType type, boolean isForSet) {
+		var isEmbeddedType = type.type == null
+		var typeName = ''
+		
+		if(isEmbeddedType) {
+			var isNullable = type.nullable
+			
+			if(isNullable || isForSet) {
+				typeName = getNullablePrimitiveName(type.typeName)
+			} else {
+				typeName = getPrimitiveName(type.typeName)				
+			}
+		} else {
+			return getTypenameOf(type.type)
+		}		
+	}
+	
+	def private String getPrimitiveName(String token) {
+		switch(token) {
+			String case 'string': return 'String'
+			String case 'bool': return 'boolean'
+			default: return token
+		}
+	}
+ 
+ 	def private String getNullablePrimitiveName(String token) {
+ 		switch(token) {
+ 			String case 'string': return 'String'
+ 			String case 'bool': return 'Boolean'
+ 			String case 'char': return 'Character'
+ 			String case 'float': return 'Float'
+ 			String case 'double': return 'Double'
+ 			String case 'byte': return 'Byte'
+ 			String case 'int': return 'Integer'
+ 			String case 'object': return 'Object'
+ 		}
+ 	}
+ 
 	def dispatch getTypenameOf(schlingel.bplaced.net.lSGL.Enum enumType) {
 		return enumType.name;
 	}
 	
 	def dispatch String getTypenameOf(Entity entityType) {
 		return entityType.name;
-	}
-	
-	def dispatch String getTypenameOf(QualifiedName name) {
-		return name.toString
-	}
-	
-	def dispatch String getTypenameOf(PrimaryType primaryType) {
-		var token = primaryType.token.toString
-		
-		if(token.equals("string")) {
-			return "String";
-		}
-		
-		if(token.equals("bool")) {
-			return "boolean";
-		}
-		
-		return token
-	}
-	
-	def dispatch String getTypenameOf(PrimaryObjectType primaryType) {
-		switch(primaryType.token) {
-			String case "int" : return "Integer"
-			String case "float" : return "Float"
-			String case "double" : return "Double"
-			String case "char" : return "Character"
-			String case "bool" : return "Boolean"
-		}
-		
-		return "Object"	
 	}
 
 	def private String getGetterAndSetterOf(Entity entity) {
