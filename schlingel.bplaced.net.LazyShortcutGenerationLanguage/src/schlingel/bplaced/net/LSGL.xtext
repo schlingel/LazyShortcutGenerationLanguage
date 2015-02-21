@@ -27,12 +27,11 @@ ConfigProperty:
 ;
 
 Type:
-	{Type}
 	PrimaryType | Enum | Entity
 ;
 
 PrimaryType:
-	'string' | 'int' | 'double' | 'float' | 'char'
+	token = ('string' | 'int' | 'double' | 'float' | 'char' | 'bool')
 ;
 
 Enum:
