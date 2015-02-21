@@ -26,12 +26,18 @@ ConfigProperty:
 	name=ID ':' value=STRING
 ;
 
-Type:
-	PrimaryType | Enum | Entity
+Type:	
+	PrimaryType | PrimaryObjectType | Enum | Entity	
 ;
 
 PrimaryType:
+	('simple' | 's')
 	token = ('string' | 'int' | 'double' | 'float' | 'char' | 'bool')
+;
+
+PrimaryObjectType:
+	('nullable' | 'object' | 'o')
+	token = ('int' | 'double' | 'float' | 'char' | 'bool' | 'Object')
 ;
 
 Enum:
@@ -55,7 +61,11 @@ Entity:
 
 Attribute:
 	('@annotation' '(' annotations+=Annotation ')')*
-	type=(Type | QualifiedName) name=ID
+	(isMap ?= 'map' key = (Type | QualifiedName) ',')?
+	type=(Type | QualifiedName) 
+	(isList ?= 'list')?
+	(isArray ?= 'array')?
+	name=ID
 ;
 
 Annotation:

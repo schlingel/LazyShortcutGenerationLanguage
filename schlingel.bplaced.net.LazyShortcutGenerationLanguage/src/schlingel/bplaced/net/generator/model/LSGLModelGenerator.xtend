@@ -13,8 +13,13 @@ import schlingel.bplaced.net.lSGL.Attribute
 import schlingel.bplaced.net.lSGL.Type
 import org.eclipse.internal.xtend.util.QualifiedName
 import schlingel.bplaced.net.lSGL.PrimaryType
+import javax.inject.Inject
+import org.eclipse.xtext.naming.IQualifiedNameProvider
+import schlingel.bplaced.net.lSGL.PrimaryObjectType
 
 class LSGLModelGenerator implements IGenerator {
+	@Inject extension IQualifiedNameProvider
+	
 	private static final String MODEL_GENERATOR_NAME = "models"
 	private static final String OUTPUT_NAME="outputdir"
 
@@ -37,6 +42,8 @@ class LSGLModelGenerator implements IGenerator {
 				'''
 package «config.packageName»;
 
+«getImports(entity)»
+
 public class «entity.name» «getSuperClassToken(entity)»{
 	«getAttributesOf(entity)»
 	«getGetterAndSetterOf(entity)»
@@ -45,6 +52,22 @@ public class «entity.name» «getSuperClassToken(entity)»{
 				'''
 			)
 		]
+	}
+	
+	def private String getImports(Entity entity) {
+		var hasMap = entity.attributes.findFirst[it.isMap] != null;
+		var hasList = entity.attributes.findFirst[it.isList] != null;
+		
+'''
+«IF hasMap»
+import java.util.AbstractMap;
+import java.util.HashMap;
+«ENDIF»
+«IF hasList»
+import java.util.List;
+import java.util.ArrayList;
+«ENDIF»
+'''
 	}
 	
 	def private String getSuperClassToken(Entity entity) {
@@ -71,7 +94,21 @@ public class «entity.name» «getSuperClassToken(entity)»{
 	}
 	
 	def private String getAttributeOf(Attribute attr) {
-		return String.format("private %s %s;", getTypenameOf(attr.type), attr.name);		
+		return String.format("private %s %s;", getAttributeTypeOf(attr), attr.name);		
+	}
+
+	def private String getAttributeTypeOf(Attribute attr) {
+		var token = getTypenameOf(attr.type)
+		
+		if(attr.isIsList) {
+			token = String.format("List<%s>", getTypenameOf(attr.type))
+		} else if(attr.isIsArray) {
+			token = String.format("%s[]", getTypenameOf(attr.type));
+		} else if(attr.isIsMap) {
+			token = String.format("AbstractMap<%s, %s>", getTypenameOf(attr.key), getTypenameOf(attr.type));
+		}
+		
+		return token;
 	}
 
 	def dispatch getTypenameOf(schlingel.bplaced.net.lSGL.Enum enumType) {
@@ -83,7 +120,7 @@ public class «entity.name» «getSuperClassToken(entity)»{
 	}
 	
 	def dispatch String getTypenameOf(QualifiedName name) {
-		return name.toString;
+		return name.toString
 	}
 	
 	def dispatch String getTypenameOf(PrimaryType primaryType) {
@@ -99,9 +136,37 @@ public class «entity.name» «getSuperClassToken(entity)»{
 		
 		return token
 	}
+	
+	def dispatch String getTypenameOf(PrimaryObjectType primaryType) {
+		switch(primaryType.token) {
+			String case "int" : return "Integer"
+			String case "float" : return "Float"
+			String case "double" : return "Double"
+			String case "char" : return "Character"
+			String case "bool" : return "Boolean"
+		}
+		
+		return "Object"	
+	}
 
 	def private String getGetterAndSetterOf(Entity entity) {
-		return "";
+'''
+	«FOR attr : entity.attributes»
+	
+	public «getAttributeTypeOf(attr)» «getMethodName("get", attr.name)»() {
+		return «attr.name»;
+	}
+	
+	public void «getMethodName("set", attr.name)»(«getAttributeTypeOf(attr)» «attr.name») {
+		this.«attr.name» = «attr.name»;
+	}
+	«ENDFOR»
+'''
+	}
+	
+	def private String getMethodName(String prefix, String name) {
+		var curName = name.charAt(0).toString.toUpperCase + name.substring(1);
+		return String.format("%s%s", prefix, curName)
 	}
 
 	def private ModelGenConfig getCfg(Resource res) {

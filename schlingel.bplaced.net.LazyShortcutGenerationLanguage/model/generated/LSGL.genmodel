@@ -27,10 +27,15 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//ConfigProperty/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//ConfigProperty/value"/>
     </genClasses>
-    <genClasses ecoreClass="LSGL.ecore#//Type">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Type/name"/>
+    <genClasses ecoreClass="LSGL.ecore#//Type"/>
+    <genClasses ecoreClass="LSGL.ecore#//PrimaryType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//PrimaryType/token"/>
+    </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//PrimaryObjectType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//PrimaryObjectType/token"/>
     </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//Enum">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Enum/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Enum/items"/>
     </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//EnumItem">
@@ -39,12 +44,17 @@
     </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//Entity">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/generators"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Entity/name"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/superClass"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/attributes"/>
     </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//Attribute">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Attribute/annotations"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Attribute/isMap"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Attribute/key"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Attribute/type"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Attribute/isList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Attribute/isArray"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Attribute/name"/>
     </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//Annotation">
