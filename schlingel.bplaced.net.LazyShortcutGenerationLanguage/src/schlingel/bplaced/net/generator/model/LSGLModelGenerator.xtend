@@ -45,6 +45,7 @@ package «config.packageName»;
 «getImports(entity)»
 
 public class «entity.name» «getSuperClassToken(entity)»{
+	«getConstructor(entity)»
 	«getAttributesOf(entity)»
 	«getGetterAndSetterOf(entity)»
 }	
@@ -67,6 +68,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 «ENDIF»
+'''
+	}
+	
+	def private String getConstructor(Entity entity) {
+		var listItems = entity.attributes.filter[it.isIsList];
+		var mapItems = entity.attributes.filter[it.isIsMap];
+		
+'''
+	public «entity.name»() {
+		«FOR list : listItems»
+		«list.name» = new ArrayList<«getTypenameOf(list.type)»>();
+		«ENDFOR»
+		«FOR map : mapItems»
+		«map.name» = new HashMap<«getTypenameOf(map.key)»,«getTypenameOf(map.type)»>();
+		«ENDFOR»
+	}
 '''
 	}
 	
