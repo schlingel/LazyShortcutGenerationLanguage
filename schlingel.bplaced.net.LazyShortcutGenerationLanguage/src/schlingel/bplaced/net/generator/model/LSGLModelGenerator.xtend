@@ -1,34 +1,29 @@
 package schlingel.bplaced.net.generator.model;
 
-import org.eclipse.xtext.generator.IGenerator
+import java.io.File
+import javax.inject.Inject
+import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IFileSystemAccess
-import schlingel.bplaced.net.lSGL.Generator
-import java.nio.file.Paths
-import schlingel.bplaced.net.lSGL.ConfigProperty
-import org.eclipse.emf.common.util.EList
-import schlingel.bplaced.net.lSGL.Entity
-import java.io.File
-import schlingel.bplaced.net.lSGL.Attribute
-import schlingel.bplaced.net.lSGL.Type
-import org.eclipse.internal.xtend.util.QualifiedName
-import schlingel.bplaced.net.lSGL.PrimaryType
-import javax.inject.Inject
+import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.naming.IQualifiedNameProvider
-import schlingel.bplaced.net.lSGL.PrimaryObjectType
+import schlingel.bplaced.net.lSGL.Attribute
 import schlingel.bplaced.net.lSGL.AttributeType
+import schlingel.bplaced.net.lSGL.ConfigProperty
+import schlingel.bplaced.net.lSGL.Entity
+import schlingel.bplaced.net.lSGL.Enum
+import schlingel.bplaced.net.lSGL.Generator
 
 class LSGLModelGenerator implements IGenerator {
-	@Inject extension IQualifiedNameProvider
-	
 	private static final String MODEL_GENERATOR_NAME = "models"
 	private static final String OUTPUT_NAME="outputdir"
 
 	private static class ModelGenConfig {
 		private String outputDir;
 		private String packageName;
-		def String getAbsoluteOutputDir() {
-			new File(outputDir, packageName.replaceAll("\\.", "/")).absolutePath
+		private String packageImport;
+		def String getOutputDir() {
+			new File(packageName.replaceAll("\\.", "/")).path
 		}
 	}
 
@@ -41,13 +36,14 @@ class LSGLModelGenerator implements IGenerator {
 		entities.forEach[entity | 
 			fsa.generateFile(getOutputFile(entity) + ".java", 
 				'''
-package «config.packageName»;
+«config.packageImport»
 
 «getImports(entity)»
 
 public class «entity.name» «getSuperClassToken(entity)»{
-	«getConstructor(entity)»
 	«getAttributesOf(entity)»
+	
+	«getConstructor(entity)»
 	«getGetterAndSetterOf(entity)»
 }	
 
@@ -165,7 +161,7 @@ import java.util.ArrayList;
  		}
  	}
  
-	def dispatch getTypenameOf(schlingel.bplaced.net.lSGL.Enum enumType) {
+	def dispatch getTypenameOf(Enum enumType) {
 		return enumType.name;
 	}
 	
@@ -213,16 +209,18 @@ import java.util.ArrayList;
 		}
 		
 		if(packageName != null) {
-			cfg.packageName = packageName
+			cfg.packageName = packageName;
+			cfg.packageImport = String.format("package %s;", packageName);
 		} else {
-			cfg.packageName = "default"
+			cfg.packageName = ""
+			cfg.packageImport = "";
 		}
 
 		cfg
 	}
 	
 	def private getPropertyValue(EList<ConfigProperty> props, String name) {
-		val attr = props.findFirst[cfgItem | cfgItem.name.toLowerCase.equals(name)]
+		val attr = props.findFirst[it.name.toLowerCase.equals(name.toLowerCase)]
 		
 		if(attr == null) {
 			return null 
@@ -232,10 +230,10 @@ import java.util.ArrayList;
 	}
 	
 	def private getDefaultOutputDir() {
-		'./'
+		'/' 
 	}
 	
 	def private String getOutputFile(Entity entity) {
-		new File(config.absoluteOutputDir, entity.name).absolutePath
+		config.getOutputDir + '/' + entity.name
 	}
 }
