@@ -10,8 +10,7 @@ Model:
 	
 Generator:
 	'def' 'generator' name=ID
-	properties+=ConfigProperty*
-	configs+=Config*
+		(properties+=ConfigProperty | configs+=Config )*
 	'end'
 ;	
 	
@@ -60,8 +59,7 @@ EnumItem:
 Entity:
 	('@generator' '(' generators+=[Generator | QualifiedName] ')')*
 	'def' 'entity' name=ID ('extends' superClass=[Entity | QualifiedName])?
-		(attributes+=Attribute)?
-		(',' attributes+=Attribute)*
+		(attributes+=Attribute)*
 	'end'
 ;
 
