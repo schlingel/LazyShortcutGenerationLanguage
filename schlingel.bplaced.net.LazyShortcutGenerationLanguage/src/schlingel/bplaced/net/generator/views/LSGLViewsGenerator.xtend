@@ -9,20 +9,13 @@ import schlingel.bplaced.net.lSGL.Attribute
 import schlingel.bplaced.net.lSGL.Generator
 
 class LSGLViewsGenerator extends LSGLGeneratorBase {
-	private static final String VIEWS_GENERATOR_NAME = "views";
-	private static final String OUTPUT_NAME = "outputdir";
+	private LSGLViewElementsGenerator.ViewsGenConfig config;
 	
-	private static class ViewsGenConfig {
-		def getOutputDir() {
-			return ''
-		}
-	}	
-	
-	private ViewsGenConfig config;
+	def public void setConfig(LSGLViewElementsGenerator.ViewsGenConfig cfg) {
+		config = cfg
+	}
 	
 	override doGenerate(Resource input, IFileSystemAccess fsa) {
-		config = new ViewsGenConfig()
-		
 		val items = input.allContents.filter[isViewSource(it)];		
 
 		items.forEach[item |
@@ -31,8 +24,6 @@ class LSGLViewsGenerator extends LSGLGeneratorBase {
 	}
 	
 	def private boolean isViewSource(Object o) {
-		var Iterable<Generator> generators = null
-		
 		if(o instanceof Entity) {
 			return containsViewGenerator((o as Entity).generators)
 		} 
@@ -45,7 +36,7 @@ class LSGLViewsGenerator extends LSGLGeneratorBase {
 	}
 	
 	def private boolean containsViewGenerator(Iterable<Generator> generators) {
-		return generators.filter[it.name.toLowerCase.equals(VIEWS_GENERATOR_NAME.toLowerCase)].length > 0
+		return generators.filter[it.name.toLowerCase.equals(LSGLViewElementsGenerator.VIEWS_GENERATOR_NAME.toLowerCase)].length > 0
 	}
 	
 	def private dispatch String handleViewSource(Entity entity) {
@@ -54,19 +45,19 @@ class LSGLViewsGenerator extends LSGLGeneratorBase {
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:orientation="vertical">
-«FOR attr : entity.attributes»
+		«FOR attr : entity.attributes»
 		«getAttributeView(attr)»
-«ENDFOR»
+		«ENDFOR»
 </LinearLayout>		
 		'''
 	}
 	
 	def private String getAttributeView(Attribute attr) {
 '''
-<«getViewType(attr)»
-        android:id="@+id/«getId(attr.name)»"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
+	<«getViewType(attr)»
+	        android:id="@+id/«getId(attr.name)»"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
 	/>
 '''
 	}

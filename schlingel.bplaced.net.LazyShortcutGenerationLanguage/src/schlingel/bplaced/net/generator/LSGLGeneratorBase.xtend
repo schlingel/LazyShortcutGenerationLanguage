@@ -75,7 +75,7 @@ abstract class LSGLGeneratorBase implements IGenerator {
  		}
  	}
  
-	def protected dispatch getTypenameOf(Enum enumType) {
+	def protected dispatch getTypenameOf(schlingel.bplaced.net.lSGL.Enum enumType) {
 		return enumType.name;
 	}
 	

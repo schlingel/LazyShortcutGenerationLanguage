@@ -29,22 +29,6 @@ Type:
 	Enum | Entity 
 ;
 
-PrimaryType:
-	token = (
-		'string'
-		| 'int'
-		| 'float'
-		| 'double'
-		| 'char'
-		| 'byte'
-	)
-;
-
-PrimaryObjectType:
-	('nullable' | 'object' | 'o')
-	token = ('int' | 'double' | 'float' | 'char' | 'bool' | 'Object' | 'byte')
-;
-
 Enum:
 	'def' 'enum' name=ID
 	items+=EnumItem
