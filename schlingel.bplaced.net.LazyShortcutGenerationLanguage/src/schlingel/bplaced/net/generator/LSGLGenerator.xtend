@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess
 import schlingel.bplaced.net.generator.model.LSGLModelGenerator
+import schlingel.bplaced.net.generator.views.LSGLViewsGenerator
 
 /**
  * Generates code from your model files on save.
@@ -17,7 +18,9 @@ class LSGLGenerator implements IGenerator {
 	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		val entityGenerator = new LSGLModelGenerator()
+		val viewGenerator = new LSGLViewsGenerator()
 		entityGenerator.doGenerate(resource, fsa)
+		viewGenerator.doGenerate(resource, fsa)
 		
 //		fsa.generateFile('greetings.txt', 'People to greet: ' + 
 //			resource.allContents
