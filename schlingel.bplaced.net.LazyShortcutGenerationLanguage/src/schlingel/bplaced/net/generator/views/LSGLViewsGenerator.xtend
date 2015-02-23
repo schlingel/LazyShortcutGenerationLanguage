@@ -6,7 +6,7 @@ import org.eclipse.xtext.generator.IFileSystemAccess
 import schlingel.bplaced.net.lSGL.Projection
 import schlingel.bplaced.net.lSGL.Entity
 import schlingel.bplaced.net.lSGL.Attribute
-import schlingel.bplaced.net.lSGL.Generator
+import schlingel.bplaced.net.lSGL.GeneratorAnnotation
 
 class LSGLViewsGenerator extends LSGLGeneratorBase {
 	private LSGLViewElementsGenerator.ViewsGenConfig config;
@@ -25,18 +25,18 @@ class LSGLViewsGenerator extends LSGLGeneratorBase {
 	
 	def private boolean isViewSource(Object o) {
 		if(o instanceof Entity) {
-			return containsViewGenerator((o as Entity).generators)
+			return containsViewGenerator((o as Entity).generatorAnnotations)
 		} 
 		
 		if(o instanceof Projection) {
-			return containsViewGenerator((o as Projection).generators)
+			return containsViewGenerator((o as Projection).generatorAnnotations)
 		}
 		
 		return false
 	}
 	
-	def private boolean containsViewGenerator(Iterable<Generator> generators) {
-		return generators.filter[it.name.toLowerCase.equals(LSGLViewElementsGenerator.VIEWS_GENERATOR_NAME.toLowerCase)].length > 0
+	def private boolean containsViewGenerator(Iterable<GeneratorAnnotation> generators) {
+		return generators.filter[it.generator.name.toLowerCase.equals(LSGLViewElementsGenerator.VIEWS_GENERATOR_NAME.toLowerCase)].length > 0
 	}
 	
 	def private dispatch String handleViewSource(Entity entity) {

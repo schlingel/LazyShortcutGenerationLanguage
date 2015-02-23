@@ -41,7 +41,7 @@ EnumItem:
 ;
 
 Entity:
-	('@generator' '(' generators+=[Generator | QualifiedName] (',' (generatorConfig+=GeneratorConfig)+)? ')')*
+	(generatorAnnotations += GeneratorAnnotation)*
 	'def' 'entity' name=ID ('extends' superClass=[Entity | QualifiedName])?
 		(attributes+=Attribute)*
 	'end'
@@ -83,8 +83,12 @@ GeneratorConfig:
 	name=STRING ('=' value=STRING)?
 ;
 
+GeneratorAnnotation:
+	'@generator' '(' generator = [Generator | QualifiedName] (',' configItem = [Config | QualifiedName])? (',' (customConfig+=GeneratorConfig)+)* ')'
+;
+
 Projection:
-	('@generator' '(' generators+=[Generator | QualifiedName] (',' (generatorConfig+=GeneratorConfig)+)? ')')*
+	(generatorAnnotations += GeneratorAnnotation)*
 	'def' (excluding?='excluding')? 'projection' name=ID 'of' entity=[Entity | QualifiedName]
 		(attributes+=Attribute)*
 	'end'
