@@ -30,12 +30,6 @@
     <genClasses ecoreClass="LSGL.ecore#//Type">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Type/name"/>
     </genClasses>
-    <genClasses ecoreClass="LSGL.ecore#//PrimaryType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//PrimaryType/token"/>
-    </genClasses>
-    <genClasses ecoreClass="LSGL.ecore#//PrimaryObjectType">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//PrimaryObjectType/token"/>
-    </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//Enum">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Enum/items"/>
     </genClasses>
@@ -45,6 +39,7 @@
     </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//Entity">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/generators"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/generatorConfig"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/superClass"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Entity/attributes"/>
     </genClasses>
@@ -66,8 +61,13 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Annotation/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Annotation/value"/>
     </genClasses>
+    <genClasses ecoreClass="LSGL.ecore#//GeneratorConfig">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//GeneratorConfig/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//GeneratorConfig/value"/>
+    </genClasses>
     <genClasses ecoreClass="LSGL.ecore#//Projection">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference LSGL.ecore#//Projection/generators"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference LSGL.ecore#//Projection/generatorConfig"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Projection/excluding"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute LSGL.ecore#//Projection/name"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference LSGL.ecore#//Projection/entity"/>
