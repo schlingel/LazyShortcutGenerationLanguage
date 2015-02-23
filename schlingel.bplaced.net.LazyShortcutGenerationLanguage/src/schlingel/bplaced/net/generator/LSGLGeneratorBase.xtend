@@ -71,6 +71,7 @@ abstract class LSGLGeneratorBase implements IGenerator {
  			String case 'double': return 'Double'
  			String case 'byte': return 'Byte'
  			String case 'int': return 'Integer'
+ 			String case 'long': return 'Long'
  			String case 'object': return 'Object'
  		}
  	}

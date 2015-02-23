@@ -60,6 +60,7 @@ AttributeType:
 				| 'double'
 				| 'bool'
 				| 'object'
+				| 'long'
 			)
 		)
 	)
