@@ -8,6 +8,7 @@ import org.eclipse.xtext.generator.IGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess
 import schlingel.bplaced.net.generator.model.LSGLModelGenerator
 import schlingel.bplaced.net.generator.views.LSGLViewElementsGenerator
+import schlingel.bplaced.net.generator.rest.LSGLRestServiceGenerator
 
 /**
  * Generates code from your model files on save.
@@ -15,17 +16,13 @@ import schlingel.bplaced.net.generator.views.LSGLViewElementsGenerator
  * see http://www.eclipse.org/Xtext/documentation.html#TutorialCodeGeneration
  */
 class LSGLGenerator implements IGenerator {
-	
 	override void doGenerate(Resource resource, IFileSystemAccess fsa) {
 		val entityGenerator = new LSGLModelGenerator()
 		val viewGenerator = new LSGLViewElementsGenerator()
+		val restGenerator = new LSGLRestServiceGenerator()
+		
 		entityGenerator.doGenerate(resource, fsa)
 		viewGenerator.doGenerate(resource, fsa)
-		
-//		fsa.generateFile('greetings.txt', 'People to greet: ' + 
-//			resource.allContents
-//				.filter(typeof(Greeting))
-//				.map[name]
-//				.join(', '))
+		restGenerator.doGenerate(resource, fsa)
 	}
 }

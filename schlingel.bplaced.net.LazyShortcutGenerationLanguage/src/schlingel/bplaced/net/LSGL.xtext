@@ -80,7 +80,7 @@ Annotation:
 ;
 
 GeneratorConfig:
-	name=STRING ('=' value=STRING)?
+	cfgName=STRING ('=' values+=STRING (':' values+=STRING)*)?
 ;
 
 GeneratorAnnotation:

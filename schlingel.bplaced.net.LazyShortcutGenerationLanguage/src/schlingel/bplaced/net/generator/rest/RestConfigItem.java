@@ -4,6 +4,15 @@ public class RestConfigItem {
 	private String packageImport;
 	private String packageName;
 	private String url;
+	private String name;
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 	
 	public String getPackageImport() {
 		return packageImport;
