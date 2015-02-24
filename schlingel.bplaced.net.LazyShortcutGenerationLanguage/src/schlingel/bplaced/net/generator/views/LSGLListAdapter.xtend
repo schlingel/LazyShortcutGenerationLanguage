@@ -7,6 +7,7 @@ import schlingel.bplaced.net.lSGL.Projection
 import schlingel.bplaced.net.lSGL.Entity
 import schlingel.bplaced.net.lSGL.Attribute
 import schlingel.bplaced.net.lSGL.Annotation
+import schlingel.bplaced.net.lSGL.GeneratorAnnotation
 
 class LSGLListAdapter extends LSGLGeneratorBase {
 	private LSGLViewElementsGenerator.ViewsGenConfig config
@@ -17,9 +18,21 @@ class LSGLListAdapter extends LSGLGeneratorBase {
 	
 	override doGenerate(Resource input, IFileSystemAccess fsa) {
 		createBaseAdapterClass(fsa)
-		input.allContents.filter[it instanceof Projection || it instanceof Entity].forEach[item |
+		input.allContents.filter[it instanceof Projection || it instanceof Entity].filter[isCandidate(it)].forEach[item |
 			createListAdapter(item, fsa)
 		]
+	}
+	
+	def private dispatch boolean isCandidate(Projection projection) {
+		return hasViewsAnnotation(projection.generatorAnnotations)
+	}
+	
+	def private dispatch boolean isCandidate(Entity entity) {
+		return hasViewsAnnotation(entity.generatorAnnotations)
+	}
+	
+	def private boolean hasViewsAnnotation(Iterable<GeneratorAnnotation> genAnnotations) {
+		return genAnnotations.findFirst[it.generator.name.toLowerCase.equals("views")] != null
 	}
 	
 	def private dispatch void createListAdapter(Projection projection, IFileSystemAccess fsa) {
