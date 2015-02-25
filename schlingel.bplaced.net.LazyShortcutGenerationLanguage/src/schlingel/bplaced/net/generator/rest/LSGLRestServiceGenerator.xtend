@@ -43,6 +43,7 @@ class LSGLRestServiceGenerator extends LSGLGeneratorBase{
 		var filePath = ''
 		var httpMethodCfg = annotation.customConfig.findFirst[it.cfgName.toLowerCase.equals('method')]
 		var httpMethod = 'GET'
+		val boolean isListResult = annotation.customConfig.findFirst[it.cfgName.toLowerCase.equals("listresult")] != null
 				
 		if(annotationCfg != null) {
 			val RestConfigItem item = config.getConfig(annotationCfg.name)
@@ -63,7 +64,7 @@ class LSGLRestServiceGenerator extends LSGLGeneratorBase{
 		
 		filePath = 'src/java/' + packageName.replaceAll('\\.', '/') + '/' + className + 'RestService.java'
 		
-		fsa.generateFile(filePath, genCode(url, httpMethod, className, packageImport, getQueryParameters(annotation)))
+		fsa.generateFile(filePath, genCode(url, httpMethod, className, packageImport, isListResult, getQueryParameters(annotation)))
 	}
 	
 	def private Iterable<QueryParameter> getQueryParameters(GeneratorAnnotation annotation) {
@@ -87,12 +88,17 @@ class LSGLRestServiceGenerator extends LSGLGeneratorBase{
 		]
 	}
 	
-	def private String genCode(String url, String httpMethod, String className, String packageImport, Iterable<QueryParameter> queryParams) {
+	def private String genCode(String url, String httpMethod, String className, String packageImport, boolean isListResult, Iterable<QueryParameter> queryParams) {
 			val params = getPathParams(url)
 			val String cbName = 'on' + className + 'Data'
 			val String methodName = httpMethod.toLowerCase.toFirstLower + className + 'Data'
 			val pathParams = params.map[p | p.substring(1, p.length - 1)].map[p | '@Path("' + p + '") String ' + p].join(', ')
 			var queryParamsStr = queryParams.map[q | String.format('@Query("%s") %s %s', q.queryVarName, q.typeName, q.parameterName) ].join(', ')
+			var String typeParam = className
+			
+			if(isListResult) {
+				typeParam = String.format("List<%s>", typeParam)
+			}
 			
 			if(pathParams.length > 0) {
 				if(queryParamsStr.length > 0) {
@@ -112,10 +118,13 @@ import retrofit.Callback;
 import retrofit.http.«httpMethod»;
 import retrofit.http.Path;
 import retrofit.http.Query;
+«IF isListResult»
+import java.util.List;
+«ENDIF»
 
 public interface «className»RestService {
 	@«httpMethod»("«url»")
-	public void «methodName»(«parameterVars»Callback<«className»> «cbName»);
+	public void «methodName»(«parameterVars»Callback<«typeParam»> «cbName»);
 }
 '''
 	}
