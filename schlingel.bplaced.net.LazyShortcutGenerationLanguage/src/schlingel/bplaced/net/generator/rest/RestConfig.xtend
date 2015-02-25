@@ -8,9 +8,18 @@ class RestConfig {
 	private String packageImport;
 	private String url;
 	private List<RestConfigItem> configs = new ArrayList<RestConfigItem>();
+	private String modelsPackageName;
 
 	def public String getPackageName() {
 		packageName;
+	}
+	
+	def public String getModelsPackageName() {
+		modelsPackageName
+	}
+	
+	def public void setModelsPackageName(String modelsPkgName) {
+		modelsPackageName = modelsPkgName
 	}
 
 	def public String getUrl() {

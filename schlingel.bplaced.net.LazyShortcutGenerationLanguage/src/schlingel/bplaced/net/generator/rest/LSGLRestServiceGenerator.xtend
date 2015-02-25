@@ -27,6 +27,17 @@ class LSGLRestServiceGenerator extends LSGLGeneratorBase{
 		config = getConfigOf(input)
 		
 		if(config != null) {
+			val Generator gen = input.allContents.filter[it instanceof Generator].map[it as Generator].findFirst[it.name.toLowerCase.equals("models")]
+			config.modelsPackageName = ''
+			
+			if(gen != null) {
+				val ConfigProperty modelsPkgName = gen.properties.findFirst[it.name.equals("packageName")]
+				
+				if(modelsPkgName != null) {
+					config.modelsPackageName = modelsPkgName.value
+				}
+			}
+			
 			input.allContents.filter[it instanceof Entity].filter[hasRestAnnotation(it as Entity)].forEach[
 				o | createRestService(o as Entity, fsa)
 			]	
@@ -120,6 +131,9 @@ import retrofit.http.Path;
 import retrofit.http.Query;
 «IF isListResult»
 import java.util.List;
+«ENDIF»
+«IF config.modelsPackageName.length > 0»
+import «config.modelsPackageName»;
 «ENDIF»
 
 public interface «className»RestService {
