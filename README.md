@@ -91,3 +91,9 @@ end
 def generator Json
 end
 ```
+
+## Build notes
+The easiest way to create a standalone command line generator application is to export it via Eclipse. But, you need to manually include this dummy setting:
+```
+  _UI_DiagnosticRoot_diagnostic=_UI_DiagnosticRoot_diagnostic
+```
