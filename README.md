@@ -9,13 +9,16 @@ Additional, useful code generations can be added with custom code generators.
 
 **Currently only a early prototype is ready. Custom generators not supported yet. Parts of this is currently just a road map for the developers!**
 
+## Binary Downloads
+[Download Binaries](https://github.com/schlingel/LazyShortcutGenerationLanguage/tree/master/binaries)
+
 ##Available Features
 LSGL supports code generation for following purposes
 
 1. Generation of model classes
 2. Generation of view xmls for list views.
 3. Generation of ListAdapters implementing the view holder pattern.
-4. Generation of REST service calls, based upon the [(Retrofit framework)https://github.com/square/retrofit]
+4. Generation of REST service calls, based upon [https://github.com/square/retrofit]
 
 ### Model class generation
 
